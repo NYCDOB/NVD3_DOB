@@ -34,12 +34,12 @@
 
 <script>
 
-    var testdata = [
-        {key: "Manhattan", y: .46},
-        {key: "Bronx", y: .20},
-        {key: "Brooklyn", y: .24},
-        {key: "Queens", y: .09},
-        {key: "Staten Island", y: .01}
+     var testdata = [
+        {key: "Manhattan", y: 46},
+        {key: "Bronx", y: 20},
+        {key: "Brooklyn", y: 24},
+        {key: "Queens", y: 9},
+        {key: "Staten Island", y: 1}
     ];
 
     var width = 300;
@@ -52,7 +52,7 @@
                 .width(width)
                 .height(height)
                 .labelType(function(d, i, values) {
-                    return values.key + '' ;
+                    return values.key + ': ' + values.value + '%';
                 })
                 ;
 
