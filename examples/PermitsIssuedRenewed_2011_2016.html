@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+
+    <style>
+        text {
+            font: 14px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, #chart1, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chart1">
+    <svg></svg>
+</div>
+
+<script>
+
+    historicalBarChart = [
+     {
+    key: "Issued",
+    color: "#4BACC6",
+    values:
+    [      
+     { x : "2011", y : 32737 },
+      { x : "2012", y : 33452 },
+      { x : "2013", y : 34584 },
+      { x : "2014", y : 36023 },
+      { x : "2015", y : 38909 },
+	  { x : "2016", y : 39332 }
+    ]
+  },
+
+ {
+    key: "Renewed",
+    color: "#F79646",
+    values:
+    [      
+     { x : "2011", y : 20393 },
+      { x : "2012", y : 20980 },
+      { x : "2013", y : 22176 },
+      { x : "2014", y : 22981 },
+      { x : "2015", y : 24696 },
+	  { x : "2016", y : 27641 }
+    ]
+  }
+  
+
+
+
+
+   ];
+
+    nv.addGraph(function() {
+        var chart = nv.models.multiBarChart()
+        .showControls(true)
+        .stacked(true);
+
+        chart.yAxis
+            .tickFormat(d3.format(',.0f'))
+            .axisLabelDistance(0);
+
+        chart.xAxis
+            .staggerLabels(true)
+            .axisLabel('');
+
+        chart
+            .reduceXTicks(false)
+
+          
+
+        d3.select('#chart1 svg')
+            .datum(historicalBarChart)
+            .call(chart);
+
+        nv.utils.windowResize(chart.update);
+        return chart;
+    });
+
+
+</script>
+</body>
+</html>
