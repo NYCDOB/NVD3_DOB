@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+
+    <style>
+        text {
+            font: 14px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, #chart1, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chart1">
+    <svg></svg>
+</div>
+
+<script>
+
+    historicalBarChart = [
+     {
+    key: "NB",
+    color: "#9BBB59",
+    values:
+    [      
+     { x : "2011", y : 3071 },
+      { x : "2012", y : 3243 },
+      { x : "2013", y : 3407 },
+      { x : "2014", y : 3843 },
+      { x : "2015", y : 4545 },
+	  { x : "2016", y : 4744 }
+    ]
+  },
+
+ {
+    key: "A1",
+    color: "#EEB058",
+    values:
+    [      
+     { x : "2011", y : 5604 },
+      { x : "2012", y : 5694 },
+      { x : "2013", y : 5444 },
+      { x : "2014", y : 5629 },
+      { x : "2015", y : 5930 },
+	  { x : "2016", y : 6870 }
+    ]
+  },
+
+
+        {key: "A2",
+    color: "#C0504D",
+    values:
+    [      
+      { x : "2011", y : 32145 },
+      { x : "2012", y : 32501 },
+      { x : "2013", y : 34797 },
+      { x : "2014", y : 35891 },
+      { x : "2015", y : 37969 },
+	  { x : "2016", y : 39874 }
+    ]
+  },
+ 
+  {
+    key: "A3",
+    color: "#8064A2",
+    values:
+    [      
+     { x : "2011", y : 11445 },
+      { x : "2012", y : 12070 },
+      { x : "2013", y : 11978 },
+      { x : "2014", y : 12353 },
+      { x : "2015", y : 13667 },
+	  { x : "2016", y : 13886 }
+    ]
+  },
+   {
+    key: "DM",
+    color: "#49D9FF",
+    values:
+    [      
+     { x : "2011", y : 865 },
+      { x : "2012", y : 924 },
+      { x : "2013", y : 1134 },
+      { x : "2014", y : 1288 },
+      { x : "2015", y : 1494 },
+	  { x : "2016", y : 1599 }
+    ]
+  }
+  
+
+
+
+
+    ];
+
+    nv.addGraph(function() {
+        var chart = nv.models.multiBarChart()
+        .showControls(true)
+        .stacked(true);
+
+        chart.yAxis
+            .tickFormat(d3.format(',.0f'))
+            .axisLabelDistance(0);
+
+        chart.xAxis
+            .staggerLabels(true)
+            .axisLabel('');
+
+        chart
+            .reduceXTicks(false)
+
+          
+
+        d3.select('#chart1 svg')
+            .datum(historicalBarChart)
+            .call(chart);
+
+        nv.utils.windowResize(chart.update);
+        return chart;
+    });
+
+
+</script>
+</body>
+</html>
