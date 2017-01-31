@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+
+    <style>
+        text {
+            font: 14px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, #chart1, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chart1">
+    <svg></svg>
+</div>
+
+<script>
+
+    historicalBarChart = [
+     {
+    key: "NB",
+    color: "#9BBB59",
+    values:
+    [ 
+	  { x : "2000", y: 8096 },
+	  { x : "2001", y : 10444 },
+      { x : "2002", y : 11019 },
+      { x : "2003", y : 13147 },
+      { x : "2004", y : 15789 },
+      { x : "2005", y : 17361 },
+	  { x : "2006", y : 16652 },
+      { x : "2007", y : 15087 },
+      { x : "2008", y : 11239 },
+      { x : "2009", y : 8957 },
+      { x : "2010", y : 6486 },	
+      { x : "2011", y : 5241 },
+      { x : "2012", y : 5181 },
+      { x : "2013", y : 5510 },
+      { x : "2014", y : 6496 },
+      { x : "2015", y : 7425 },
+	  { x : "2016", y : 7526 }
+    ]
+  },
+
+ {
+    key: "A1",
+    color: "#EEB058",
+    values:
+    [      
+     { x : "2000", y : 6618},
+	 { x : "2001", y : 7011},
+	 { x : "2002", y : 7701},
+	 { x : "2003", y : 8549},
+	 { x : "2004", y : 9688},
+	 { x : "2005", y : 10813},
+	 { x : "2006", y : 10939},
+	 { x : "2007", y : 9781},
+	 { x : "2008", y : 8000},
+	 { x : "2009", y : 7070},
+	 { x : "2010", y : 6515},
+	 { x : "2011", y : 6727},
+	 { x : "2012", y : 6843},
+	 { x : "2013", y : 6552},
+	 { x : "2014", y : 6826},
+	 { x : "2015", y : 7277},
+	 { x : "2016", y : 8570}
+    ]
+  },
+
+
+ {
+    key: "A2",
+    color: "#C0504D",
+    values:
+    [      
+     { x : "2000", y : 59280},
+	 { x : "2001", y : 59212},
+	 { x : "2002", y : 59773},
+	 { x : "2003", y : 62583},
+	 { x : "2004", y : 68537},
+	 { x : "2005", y : 72572},
+	 { x : "2006", y : 73681},
+	 { x : "2007", y : 78895},
+	 { x : "2008", y : 82536},
+	 { x : "2009", y : 79945},
+	 { x : "2010", y : 82647},
+	 { x : "2011", y : 91610},
+	 { x : "2012", y : 93548},
+	 { x : "2013", y : 104068},
+	 { x : "2014", y : 110088},
+	 { x : "2015", y : 116234},
+	 { x : "2016", y : 122731}
+    ]
+  },
+ 
+  {
+    key: "A3",
+    color: "#8064A2",
+    values:
+    [      
+     { x : "2000", y : 9760},
+	 { x : "2001", y : 9151},
+	 { x : "2002", y : 10202},
+	 { x : "2003", y : 11272},
+	 { x : "2004", y : 11487},
+	 { x : "2005", y : 12824},
+	 { x : "2006", y : 15421},
+	 { x : "2007", y : 18311},
+	 { x : "2008", y : 19287},
+	 { x : "2009", y : 17584},
+	 { x : "2010", y : 20238},
+	 { x : "2011", y : 20222},
+	 { x : "2012", y : 21631},
+	 { x : "2013", y : 21998},
+	 { x : "2014", y : 22489},
+	 { x : "2015", y : 24218},
+	 { x : "2016", y : 24006}
+    ]
+  },
+   {
+    key: "DM",
+    color: "#49D9FF",
+    values:
+    [      
+     { x : "2000", y : 1562},
+	 { x : "2001", y : 1592},
+	 { x : "2002", y : 2023},
+	 { x : "2003", y : 2390},
+	 { x : "2004", y : 3025},
+	 { x : "2005", y : 3687},
+	 { x : "2006", y : 3901},
+	 { x : "2007", y : 3505},
+	 { x : "2008", y : 2653},
+	 { x : "2009", y : 1424},
+	 { x : "2010", y : 1094},
+	 { x : "2011", y : 1185},
+	 { x : "2012", y : 1268},
+	 { x : "2013", y : 1576},
+	 { x : "2014", y : 1870},
+	 { x : "2015", y : 2189},
+	 { x : "2016", y : 2252}
+    ]
+  }
+  
+
+
+
+
+    ];
+
+    nv.addGraph(function() {
+        var chart = nv.models.multiBarChart()
+        .showControls(true)
+        .stacked(true);
+
+        chart.yAxis
+            .tickFormat(d3.format(',.0f'))
+            .axisLabelDistance(0);
+
+        chart.xAxis
+            .staggerLabels(false)
+            .axisLabel('');
+
+        chart
+            .reduceXTicks(false)
+
+          
+
+        d3.select('#chart1 svg')
+            .datum(historicalBarChart)
+            .call(chart);
+
+        nv.utils.windowResize(chart.update);
+        return chart;
+    });
+
+
+</script>
+</body>
+</html>
