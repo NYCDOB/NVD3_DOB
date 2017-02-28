@@ -124,6 +124,7 @@
     nv.addGraph(function() {
         var chart = nv.models.multiBarChart()
         .showControls(true)
+	.staggerLabels(true)
         .stacked(true);
 
         chart.yAxis
