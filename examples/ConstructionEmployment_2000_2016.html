@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+
+    <style>
+        text {
+            font: 14px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, #chart1, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chart1">
+    <svg></svg>
+</div>
+
+<script>
+
+    historicalBarChart = [
+     {
+    key: "Annual Average",
+    <!-- color: "#9BBB59", -->
+	color: "#5597C4",
+    values:
+    [ 
+	  { x : "2000", y: 29900 },
+	  { x : "2001", y : 30317 },
+      { x : "2002", y : 29542 },
+      { x : "2003", y : 27617 },
+      { x : "2004", y : 27067 },
+      { x : "2005", y : 28408 },
+	  { x : "2006", y : 30817 },
+      { x : "2007", y : 34567 },
+      { x : "2008", y : 36750 },
+      { x : "2009", y : 32917 },
+      { x : "2010", y : 30092 },	
+      { x : "2011", y : 30442 },
+      { x : "2012", y : 31883 },
+      { x : "2013", y : 33308 },
+      { x : "2014", y : 36500 },
+      { x : "2015", y : 40333 },
+	  { x : "2016", y : 43258 }
+    ]
+  }
+];
+
+    nv.addGraph(function() {
+        var chart = nv.models.multiBarChart()
+		
+        .showControls(true)
+        .stacked(true);
+		
+        chart.yAxis
+            .tickFormat(d3.format(',.0f'))
+			//.tickFormat(d3.format('.2s'))
+            .axisLabelDistance(0);
+
+        chart.xAxis
+            .staggerLabels(true)
+            .axisLabel('');
+
+        chart
+            .reduceXTicks(true)
+
+          
+
+        d3.select('#chart1 svg')
+            .datum(historicalBarChart)
+            .call(chart);
+
+        nv.utils.windowResize(chart.update);
+        return chart;
+    });
+
+
+</script>
+</body>
+</html>
