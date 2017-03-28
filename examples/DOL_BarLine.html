@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+
+    <style>
+        text {
+            font: 12px sans-serif;
+        }
+
+        svg {
+            display: block;
+        }
+        html, body, #chart1, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+        button {
+            margin: 2px;
+            margin-left: 80px;
+        }
+    </style>
+</head>
+<body>
+
+</div>
+<div id="chart1" class='with-3d-shadow with-transitions'>
+    <svg> </svg>
+</div>
+
+
+<script>
+
+  var data = [{
+    'key': 'foo',
+        'bar': true,
+        'color': 'skyblue',
+        'values': [
+        [949190400000, 29900],
+        [980812800000,  30317],
+        [1012348800000, 29542],
+        [1043884800000,  27617],
+        [1075420800000,  27067],
+        [1107043200000, 28408],
+        [1138579200000,  30817],
+        [1170115200000,  34567],
+        [1201651200000, 36750],
+        [1233273600000,  32917],
+		[1264809600000,  30092],
+		[1296345600000, 30442],
+		[1327881600000,  31883],
+		[1359504000000, 33308],
+		[1391040000000,  36500],
+		[1422576000000,  40333],
+		[1454112000000,  43258]
+    ]
+}, {
+    'key': 'bar',
+        'color': 'steelblue',
+        'values': [
+        [949190400000, 50000],
+        [980812800000,  30317],
+        [1012348800000, 29542],
+        [1043884800000,  27617],
+        [1075420800000,  27067],
+        [1107043200000, 28408],
+        [1138579200000,  30817],
+        [1170115200000,  34567],
+        [1201651200000, 36750],
+        [1233273600000,  32917],
+		[1264809600000,  30092],
+		[1296345600000, 30442],
+		[1327881600000,  31883],
+		[1359504000000, 33308],
+		[1391040000000,  36500],
+		[1422576000000,  40333],
+		[1454112000000,  50000]
+    ]
+}];
+nv.addGraph(function () {
+    var chart = nv.models.linePlusBarChart()
+        .margin({
+            top: 30,
+            right: 60,
+            bottom: 50,
+            left: 70
+        })
+		
+        .x(function (d, i) { return i; })
+        .y(function (d, i) { return d[1]; })
+        .options({focusEnable: false});
+
+    chart.xAxis.showMaxMin(true)
+        .tickFormat(function (d) {
+        var dx = data[0].values[d] && data[0].values[d][0] || 0;
+        return d3.time.format('%Y')(new Date(dx));
+    });
+
+	
+	
+
+	
+    chart.y1Axis.tickFormat(d3.format(',f'));
+
+    chart.y2Axis.tickFormat(function (d) {
+        return d3.format('')(d)
+    });
+
+	//chart.interactiveLayer
+			//.tooltip
+			//.headerFormatter(function(d) {return "Year: " + d3.time.format('%Y')(new Date(d));})
+			//.valueFormatter(d3.format(','));
+	
+	
+    chart.bars.forceY([0, 200]);
+    chart.lines.forceY([0]);
+
+    d3.select('#chart1 svg')
+        .datum(data)
+        .transition()
+        .duration(0)
+        .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+});
+
+</script>
+</body>
+</html>
