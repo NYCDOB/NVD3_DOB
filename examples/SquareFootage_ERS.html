@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d32.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+
+    <style>
+
+        html, body, #chart1, svg {
+           margin-left: 3%;
+			margin-right: auto;
+            height: 94%;
+            width: 92%;
+			float: middle;
+			display: inline-block;
+        }
+		
+		h1 {
+			font-size: 280%;
+			text-align: center;
+			font-family: Sans-Serif;
+		}
+		
+    </style>
+</head>
+<body>
+<h1>NYC Construction Square Footage 2000 - 2016</h1>
+<div id="chart1">
+    <svg></svg>
+</div>
+
+<script>
+
+    historicalBarChart = [
+     {
+    key: "NB Total SqFt",
+    color: "#8dd3c7",
+    values:
+    [ 
+	  { x : "2000", y: 37805487 },
+	  { x : "2001", y : 35507029 },
+      { x : "2002", y : 36489024 },
+      { x : "2003", y : 37688127 },
+      { x : "2004", y : 46659536 },
+      { x : "2005", y : 56657776 },
+	  { x : "2006", y : 56900912 },
+      { x : "2007", y : 64563085 },
+      { x : "2008", y : 65379046 },
+      { x : "2009", y : 20721086 },
+      { x : "2010", y : 16898371 },	
+      { x : "2011", y : 18972588 },
+      { x : "2012", y : 23129025 },
+      { x : "2013", y : 34294266 },
+      { x : "2014", y : 38281049 },
+      { x : "2015", y : 92405251 },
+	  { x : "2016", y : 34923804 }
+    ]
+  },
+
+ {
+    key: "A1 Total SqFt",
+    color: "#fdb462",
+    values:
+    [      
+     { x : "2000", y : 5246488},
+	 { x : "2001", y : 7195129},
+	 { x : "2002", y : 27433451},
+	 { x : "2003", y : 6552193},
+	 { x : "2004", y : 4773351},
+	 { x : "2005", y : 5849745},
+	 { x : "2006", y : 6246732},
+	 { x : "2007", y : 5210744},
+	 { x : "2008", y : 5840305},
+	 { x : "2009", y : 2721994},
+	 { x : "2010", y : 2002181},
+	 { x : "2011", y : 1979380},
+	 { x : "2012", y : 3663310},
+	 { x : "2013", y : 2782942},
+	 { x : "2014", y : 3461255},
+	 { x : "2015", y : 5913073},
+	 { x : "2016", y : 4369982}
+    ]
+  }
+];
+
+    nv.addGraph(function() {
+        var chart = nv.models.multiBarChart()
+		.duration(500)
+        .showControls(true)
+        .stacked(true);
+		
+        chart.yAxis
+            //.tickFormat(d3.format(',.0f'))
+			.tickFormat(d3.format('.2s'))
+            .axisLabelDistance(0);
+
+        chart.xAxis
+            .staggerLabels(true)
+            .axisLabel('');
+
+        chart
+            .reduceXTicks(true)
+
+          
+		chart.legend.vers('furious');
+        d3.select('#chart1 svg')
+            .datum(historicalBarChart)
+            .call(chart);
+
+        nv.utils.windowResize(chart.update);
+        return chart;
+    });
+
+
+</script>
+</body>
+</html>

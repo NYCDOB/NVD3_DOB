@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d32.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+	
+	
+
+    <style>
+        html, body, #chart1, svg {
+           margin-left: 3%;
+			margin-right: auto;
+            height: 94%;
+            width: 92%;
+			float: middle;
+			display: inline-block;
+        }
+		
+		h1 {
+			font-size: 280%;
+			text-align: center;
+			font-family: Sans-Serif;
+		}
+        button {
+            margin: 2px;
+            margin-left: 80px;
+        }
+    </style>
+</head>
+<body>
+<h1>NYC Construction Employment vs. Permits</h1>
+<!-- <div style="position:absolute; top: 0; left: 0;"> -->
+    <!-- <button onclick="chart.switchYAxisOrder(!chart.switchYAxisOrder()); chart.update();">toggle axis</button> -->
+    <!-- <button onclick="chart.focusEnable(!chart.focusEnable()); chart.update();">toggle focus</button> -->
+    <!-- <span style="color: #C60;">&lt;-- turn focus on or off!</span> -->
+<!-- </div> -->
+<div id="chart1" class='with-3d-shadow with-transitions'>
+    <svg> </svg>
+</div>
+
+<script>
+    var testdata = [
+        {
+            "key" : "Employment" ,
+            "bar": true,
+			'color': '#80b1d3',
+            "values" : [         
+		<!-- [949190400000, 29900], -->
+        <!-- [980812800000,  30317], -->
+        <!-- [1012348800000, 29542], -->
+        <!-- [1043884800000,  27617], -->
+        <!-- [1075420800000,  27067], -->
+        <!-- [1107043200000, 28408], -->
+        <!-- [1138579200000,  30817], -->
+        <!-- [1170115200000,  34567], -->
+        <!-- [1201651200000, 36750], -->
+        <!-- [1233273600000,  32917], -->
+		<!-- [1264809600000,  30092], -->
+		<!-- [1296345600000, 30442], -->
+		<!-- [1327881600000,  31883], -->
+		<!-- [1359504000000, 33308], -->
+		<!-- [1391040000000,  36500], -->
+		<!-- [1422576000000,  40333], -->
+		<!-- [1454112000000,  43258]] -->
+		["2000", 29900],
+        ["2001",  30317],
+        ["2002", 29542],
+        ["2003",  27617],
+        ["2004",  27067],
+        ["2005", 28408],
+        ["2006",  30817],
+        ["2007",  34567],
+        ["2008", 36750],
+        ["2009",  32917],
+		["2010",  30092],
+		["2011", 30442],
+		["2012",  31883],
+		["2013", 33308],
+		["2014",  36500],
+		["2015",  40333],
+		["2016",  43258]]
+        },
+        {
+            "key" : "Permits" ,
+			'color': '#fdb462',
+            "values" : [         
+		<!-- [949190400000, 85316], -->
+        <!-- [980812800000,  87410], -->
+        <!-- [1012348800000, 90718], -->
+        <!-- [1043884800000,  97941], -->
+        <!-- [1075420800000,  108526], -->
+        <!-- [1107043200000, 117257], -->
+        <!-- [1138579200000,  120594], -->
+        <!-- [1170115200000,  125579], -->
+        <!-- [1201651200000, 123715], -->
+        <!-- [1233273600000,  114980], -->
+		<!-- [1264809600000,  116980], -->
+		<!-- [1296345600000, 124985], -->
+		<!-- [1327881600000,  128471], -->
+		<!-- [1359504000000, 139704], -->
+		<!-- [1391040000000,  147769], -->
+		<!-- [1422576000000,  157343], -->
+		<!-- [1454112000000,  165085] ] -->
+		["2000", 85316],
+        ["2001",  87410],
+        ["2002", 90718],
+        ["2003",  97941],
+        ["2004",  108526],
+        ["2005", 117257],
+        ["2006",  120594],
+        ["2007",  125579],
+        ["2008", 123715],
+        ["2009",  114980],
+		["2010",  116980],
+		["2011", 124985],
+		["2012",  128471],
+		["2013", 139704],
+		["2014",  147769],
+		["2015",  157343],
+		["2016",  165085] ]
+        }
+    ].map(function(series) {
+            series.values = series.values.map(function(d) { return {x: d[0], y: d[1] } });
+            return series;
+        });
+		
+		
+    var chart;
+    nv.addGraph(function() {
+        chart = nv.models.linePlusBarChart()
+            //.margin({top: 50, right: 80, bottom: 30, left: 80})
+			.margin({
+				top: 30, 
+				right: 70, 
+				bottom: 50, 
+				left: 70
+			})
+			.options({focusEnable: false})
+			.legendLeftAxisHint('')
+            		.legendRightAxisHint('');
+            //.color(d3.scale.category10().range());
+        
+		<!-- chart.xAxis.tickFormat(function(d) { -->
+            <!-- return d3.time.format('%Y')(new Date(d)) -->
+        <!-- }).showMaxMin(true); -->
+		
+		chart.xAxis
+		    //.staggerLabels(true)
+            .axisLabel('');
+		
+		
+        //chart.y2Axis.tickFormat(function(d) { return '$' + d3.format(',f')(d) });
+		chart.y1Axis
+			.tickFormat(d3.format('.2s'))
+			.axisLabel('Avg. Construction Employment')
+			.axisLabelDistance(0)
+			.ticks(8);
+		
+		
+
+		chart.y2Axis
+			.tickFormat(function (d) {return d3.format('.2s')(d) })
+			.axisLabel('Total Permits Issued')
+			.axisLabelDistance(-18)
+			.ticks(8);
+			
+
+		chart.legend.vers('furious');	
+        //chart.bars.forceY([0]).padData(false);
+		chart.bars.forceY([0, 200]);
+		chart.lines.forceY([0]);
+        <!-- chart.x2Axis.tickFormat(function(d) { -->
+            <!-- return d3.time.format('%Y')(new Date(d)) -->
+        <!-- }).showMaxMin(true); -->
+        d3.select('#chart1 svg')
+            .datum(testdata)
+            .transition().duration(0).call(chart);
+        nv.utils.windowResize(chart.update);
+        //chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
+        return chart;
+    });
+</script>
+</body>
+</html>
