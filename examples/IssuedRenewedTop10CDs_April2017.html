@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+
+    <style>
+        text {
+            font: 14px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, #chart1, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chart1" class='with-3d-shadow with-transitions'>
+    <svg></svg>
+</div>
+
+<script>
+    historicalBarChart = [
+     {
+    key: "Issued",
+    color: "#102634",
+    values:
+    [      
+     { x : "105", y : 951 },
+      { x : "108", y : 467 },
+      { x : "102", y : 439 },
+      { x : "107", y : 334 },
+      { x : "106", y : 373 },
+	  { x : "104", y : 294 },
+	  { x : "101", y : 306 },
+	  { x : "302", y : 255 },
+	  { x : "306", y : 179 },
+	  { x : "301", y : 227 }
+	]
+  },
+ {
+    key: "Renewed",
+    color: "#769CB3",
+    values:
+    [      
+     { x : "105", y : 413 },
+      { x : "108", y : 315 },
+      { x : "102", y : 232 },
+      { x : "107", y : 257 },
+      { x : "106", y : 144 },
+	  { x : "104", y : 190 },
+	  { x : "101", y : 175 },
+	  { x : "302", y : 193 },
+	  { x : "306", y : 220 },
+	  { x : "301", y : 156 }
+    ]
+  }
+  
+];
+    nv.addGraph(function() {
+        var chart = nv.models.multiBarChart()
+        .showControls(true)
+	.staggerLabels(true)
+        .stacked(true);
+        chart.yAxis
+            .tickFormat(d3.format(',.0f'))
+            .axisLabelDistance(0);
+        chart.xAxis
+            .axisLabel('');
+        chart
+            .reduceXTicks(false)
+        chart.legend.vers('furious');  
+        d3.select('#chart1 svg')
+            .datum(historicalBarChart)
+            .call(chart);
+        nv.utils.windowResize(chart.update);
+		
+        return chart;
+    });
+</script>
+</body>
+</html>
