@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+
+    <style>
+        text {
+            font: 14px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, #chart1, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chart1" class='with-3d-shadow with-transitions'>
+    <svg></svg>
+</div>
+
+<script>
+    historicalBarChart = [
+     {
+    key: "CO",
+    color: "#102634",
+    values:
+    [      
+     { x : "105", y : 1 },
+      { x : "101", y : 2 },
+      { x : "102", y : 3 },
+      { x : "104", y : 4 },
+      { x : "107", y : 6 },
+	  { x : "106", y : 1 },
+	  { x : "108", y : 6 },
+	  { x : "302", y : 12 },
+	  { x : "301", y : 16 },
+	  { x : "503", y : 35 }
+	]
+  },
+ {
+    key: "TCO",
+    color: "#769CB3",
+    values:
+    [      
+     { x : "105", y : 129 },
+      { x : "101", y : 101 },
+      { x : "102", y : 68 },
+      { x : "104", y : 56 },
+      { x : "107", y : 47 },
+	  { x : "106", y : 50 },
+	  { x : "108", y : 44 },
+	  { x : "302", y : 30 },
+	  { x : "301", y : 23 },
+	  { x : "503", y : 4 }
+    ]
+  }
+  
+];
+    nv.addGraph(function() {
+        var chart = nv.models.multiBarChart()
+        .showControls(true)
+	.staggerLabels(true)
+        .stacked(true);
+        chart.yAxis
+            .tickFormat(d3.format(',.0f'))
+            .axisLabelDistance(0);
+        chart.xAxis
+            .axisLabel('');
+        chart
+            .reduceXTicks(false)
+        chart.legend.vers('furious');  
+        d3.select('#chart1 svg')
+            .datum(historicalBarChart)
+            .call(chart);
+        nv.utils.windowResize(chart.update);
+		
+        return chart;
+    });
+</script>
+</body>
+</html>
