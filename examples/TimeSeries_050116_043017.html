@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+
+    <style>
+        text {
+            font: 12px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class='with-3d-shadow with-transitions'>
+<!-- <button onclick="expandLegend();">Expand/Contract Legend</button> -->
+    <!-- <script> -->
+        <!-- var expandLegend = function() { -->
+            <!-- var exp = chart.legend.expanded(); -->
+            <!-- chart.legend.expanded(!exp); -->
+            <!-- chart.update(); -->
+        <!-- } -->
+    <!-- </script> -->
+<svg id="chart1" class='with-3d-shadow with-transitions'></svg>
+
+<script>
+    var histcatexplong = [
+        {
+            "key" : "NB" ,
+			color: "#0192A6",
+            "values" : [ [ 1462147200000, 696] , [ 1467244800000, 778] , [ 1469923200000, 552] , [ 1472601600000, 752] , [ 1475193600000, 733] , [ 1477872000000, 560] , [ 1480464000000, 589] , [ 1483142400000, 518] , [ 1485820800000, 545] , [ 1488240000000, 497] , [ 1490918400000, 817] , [ 1493596800000, 637]]
+        } ,
+        {
+            "key" : "A1" ,
+			color: "#DA762B",
+            "values" : [ [ 1462147200000, 763] , [ 1467244800000, 874] , [ 1469923200000, 739] , [ 1472601600000, 782] , [ 1475193600000, 659] , [ 1477872000000, 598] , [ 1480464000000, 670] , [ 1483142400000, 707] , [ 1485820800000, 630] , [ 1488240000000, 632] , [ 1490918400000, 890] , [ 1493596800000, 794]]
+        } ,
+        {
+            "key" : "A2" ,
+			disabled: true,
+			color: "#9DA632",
+            "values" : [ [ 1462147200000, 10064] , [ 1467244800000, 11056] , [ 1469923200000, 10282] , [ 1472601600000, 11496] , [ 1475193600000, 10753] , [ 1477872000000, 9663] , [ 1480464000000, 9653] , [ 1483142400000, 9655] , [ 1485820800000, 9448] , [ 1488240000000, 8897] , [ 1490918400000, 12108] , [ 1493596800000, 10082]]
+        } ,
+        {
+            "key" : "A3" ,
+			disabled: true,
+			color: "#C43E2D",
+            "values" : [ [ 1462147200000, 2223] , [ 1467244800000, 2300] , [ 1469923200000, 2090] , [ 1472601600000, 2263] , [ 1475193600000, 2182] , [ 1477872000000, 2178] , [ 1480464000000, 1871] , [ 1483142400000, 1696] , [ 1485820800000, 1603] , [ 1488240000000, 1711] , [ 1490918400000, 2203] , [ 1493596800000, 2029]]
+        } ,
+        {
+            "key" : "DM" ,
+			color: "#B675C4",
+            "values" : [ [ 1462147200000, 192] , [ 1467244800000, 203] , [ 1469923200000, 177] , [ 1472601600000, 208] , [ 1475193600000, 188] , [ 1477872000000, 184] , [ 1480464000000, 222] , [ 1483142400000, 161] , [ 1485820800000, 187] , [ 1488240000000, 172] , [ 1490918400000, 186] , [ 1493596800000, 185]]
+        }
+    ];
+    //var colors = d3.scale.category20();
+    var chart;
+    nv.addGraph(function() {
+        chart = nv.models.stackedAreaChart()
+            .useInteractiveGuideline(true)
+            .x(function(d) { return d[0] })
+            .y(function(d) { return d[1] })
+            .controlLabels({stacked: "Stacked"})
+            .duration(300);
+        chart.xAxis.tickFormat(function(d) { return d3.time.format('%x')(new Date(d)) });
+        chart.yAxis.tickFormat(d3.format(',d'));
+		chart._options.controlOptions = ['Stacked', 'Expanded'];
+        chart.legend.vers('furious');
+        d3.select('#chart1')
+            .datum(histcatexplong)
+            .transition().duration(1000)
+            .call(chart)
+            .each('start', function() {
+                setTimeout(function() {
+                    d3.selectAll('#chart1 *').each(function() {
+                        if(this.__transition__)
+                            this.__transition__.duration = 1;
+                    })
+                }, 0)
+            });
+        nv.utils.windowResize(chart.update);
+        return chart;
+    });
+</script>
+</body>
+</html>
