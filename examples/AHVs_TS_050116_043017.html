@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+
+    <style>
+        text {
+            font: 12px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class='with-3d-shadow with-transitions'>
+<!-- <button onclick="expandLegend();">Expand/Contract Legend</button> -->
+    <!-- <script> -->
+        <!-- var expandLegend = function() { -->
+            <!-- var exp = chart.legend.expanded(); -->
+            <!-- chart.legend.expanded(!exp); -->
+            <!-- chart.update(); -->
+        <!-- } -->
+    <!-- </script> -->
+<svg id="chart1" class='with-3d-shadow with-transitions'></svg>
+
+<script>
+    var histcatexplong = [
+        {
+            "key" : "Initial" ,
+			color: "#102634",
+            "values" : [ [ 1462147200000, 1681] , [ 1464739200000, 1451] , [ 1467331200000, 1651] , [ 1470009600000, 1602] , [ 1472688000000, 1577] , [ 1475280000000, 1707] , [ 1477958400000, 1473] , [ 1480550400000, 1449] , [ 1483228800000, 1253] , [ 1485907200000, 1329] , [ 1488326400000, 1225] , [ 1491004800000, 1642] , [ 1493596800000, 1398]]
+        } ,
+        {
+            "key" : "Renewal" ,
+			color: "#769CB3",
+            "values" : [ [ 1462147200000, 3575] ,[ 1464739200000, 3392] , [ 1467331200000, 3726] , [ 1470009600000, 3548] , [ 1472688000000, 3856] , [ 1475280000000, 3819] , [ 1477958400000, 3806] , [ 1480550400000, 3949] , [ 1483228800000, 3015] , [ 1485907200000, 3470] , [ 1488326400000, 3249] , [ 1491004800000, 3804] , [ 1493596800000, 3455]]
+        }
+    ];
+    //var colors = d3.scale.category20();
+    var chart;
+    nv.addGraph(function() {
+        chart = nv.models.stackedAreaChart()
+            .useInteractiveGuideline(true)
+            .x(function(d) { return d[0] })
+            .y(function(d) { return d[1] })
+            .controlLabels({stacked: "Stacked"})
+            .duration(300);
+        chart.xAxis.tickFormat(function(d) { return d3.time.format('%x')(new Date(d)) });
+		var x = d3.time.scale();
+		chart.xScale(x);
+        chart.yAxis.tickFormat(d3.format(',d'));
+		chart._options.controlOptions = ['Stacked', 'Expanded'];
+        chart.legend.vers('furious');
+        d3.select('#chart1')
+            .datum(histcatexplong)
+            .transition().duration(1000)
+            .call(chart)
+            .each('start', function() {
+                setTimeout(function() {
+                    d3.selectAll('#chart1 *').each(function() {
+                        if(this.__transition__)
+                            this.__transition__.duration = 1;
+                    })
+                }, 0)
+            });
+        nv.utils.windowResize(chart.update);
+        return chart;
+    });
+</script>
+</body>
+</html>
