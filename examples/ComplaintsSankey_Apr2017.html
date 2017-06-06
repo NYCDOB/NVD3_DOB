@@ -12,6 +12,7 @@
 .node text { 
    pointer-events: none; 
    text-shadow: 0 1px 0 #fff; 
+   font-family: Arial, Helvetica, sans-serif;
 } 
   
 .link { 
@@ -42,7 +43,10 @@ var margin = {top: 10, right: 10, bottom: 10, left: 10},
 // format variables 
 var formatNumber = d3.format(",.0f"),    // zero decimal places 
     format = function(d) { return formatNumber(d) + " " + units; }, 
-    color = d3.scaleOrdinal(d3.schemeCategory20); 
+    //color = d3.scaleOrdinal(d3.schemeCategory20); 
+	color = d3.scaleOrdinal()
+		.domain([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32])
+		.range(["#59A0D0","#59A0D0","#59A0D0","#59A0D0","#59A0D0","#EC9C2C","#EC9C2C","#EC9C2C","#EC9C2C","#EC9C2C","#952419","#952419","#952419","#952419","#952419","#90A405","#90A405","#90A405","#90A405","#90A405","#8A308E","#8A308E","#8A308E","#8A308E","#8A308E","#D3E5E8","#AEC6D4","#8DADC2","#6D93B0","#4D7A9E","#2E648C","#1B3A52","#FF0000"]);
   
 // append the svg object to the body of the page 
 var svg = d3.select("body").append("svg") 
@@ -56,12 +60,13 @@ var svg = d3.select("body").append("svg")
 var sankey = d3.sankey() 
     .nodeWidth(36) 
     .nodePadding(40) 
-    .size([width, height]); 
+    .size([width, height]);
+
   
 var path = sankey.link(); 
   
 // load the data 
-d3.json("Complaints_Apr2017.json", function(error, graph) { 
+d3.json("data/Complaints_Apr2017.json", function(error, graph) { 
   
   sankey 
       .nodes(graph.nodes) 
@@ -104,7 +109,8 @@ d3.json("Complaints_Apr2017.json", function(error, graph) {
        .attr("height", function(d) { return d.dy; }) 
        .attr("width", sankey.nodeWidth()) 
        .style("fill", function(d) {  
- 		  return d.color = color(d.name.replace(/ .*/, "")); }) 
+ 		  //return d.color = color(d.name.replace(/ .*/, "")); }) 
+		  return d.color = color(d.node); }) 
        .style("stroke", function(d) {  
  		  return d3.rgb(d.color).darker(2); }) 
      .append("title") 
@@ -124,16 +130,16 @@ d3.json("Complaints_Apr2017.json", function(error, graph) {
        .attr("text-anchor", "start"); 
   
 // the function for moving the nodes 
-   function dragmove(d) { 
-     d3.select(this) 
-       .attr("transform",  
-             "translate("  
-                + d.x + ","  
-                + (d.y = Math.max( 
-                   0, Math.min(height - d.dy, d3.event.y)) 
-                  ) + ")"); 
-     sankey.relayout(); 
-     link.attr("d", path); 
+function dragmove(d) {
+	d3.select(this)
+		.attr("transform",
+			"translate("
+				+ d.x + ","
+				+ (d.y = Math.max(
+					0, Math.min(height - d.dy, d3.event.y))
+				) + ")");
+sankey.relayout();
+link.attr("d", path);
    } 
  }); 
   
@@ -141,3 +147,4 @@ d3.json("Complaints_Apr2017.json", function(error, graph) {
  
  
 </body> 
+
