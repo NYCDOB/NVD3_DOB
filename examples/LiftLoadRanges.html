@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+
+	<style>
+		#chart svg {
+		  height: 950px;
+		}
+    </style>
+
+</head>
+<body>
+
+<div id="chart">
+  <svg></svg>
+</div>
+
+<script>
+
+
+	
+function exampleData() {
+ return  [ 
+    {
+      key: "Cumulative Return",
+      values: [
+        { 
+          "label" : "<1,000 lbs." ,
+		  "color" : "#F79646",
+          "value" : 7048
+        } , 
+        { 
+          "label" : "1,001 - 2,000 lbs." , 
+		  "color" : "#F79646",
+          "value" : 31615
+        } , 
+        { 
+          "label" : "2,001 - 3,000 lbs." , 
+		  "color" : "#F79646",
+          "value" : 18997
+        } , 
+        { 
+          "label" : "3,001 - 4,000 lbs." , 
+		  "color" : "#F79646",
+          "value" : 9940
+        } , 
+        { 
+          "label" : "4,001 - 5,000 lbs." ,
+		  "color" : "#F79646",
+          "value" : 2368
+        } , 
+        { 
+          "label" : "5,001 - 6,000 lbs." , 
+		  "color" : "#F79646",
+          "value" : 1650
+        } , 
+        { 
+          "label" : "6,001 - 7,000 lbs." , 
+		  "color" : "#F79646",
+          "value" : 903
+        } , 
+        { 
+          "label" : "7,001 - 8,000 lbs." ,
+		  "color" : "#F79646",
+          "value" : 899
+        }, 
+        { 
+          "label" : "8,001 - 9,000 lbs." , 
+		  "color" : "#F79646",
+          "value" : 452
+        } , 
+        { 
+          "label" : "9,001 - 10,000 lbs." , 
+		  "color" : "#F79646",
+          "value" : 392
+        },
+		{ 
+          "label" : ">10,000 lbs." ,
+		  "color" : "#F79646",
+          "value" : 541
+        }, 
+        { 
+          "label" : "Not Reported" , 
+		  "color" : "#F79646",
+          "value" : 9079
+        }
+      ]
+    }
+  ]
+
+}
+	
+nv.addGraph(function() {
+  var chart = nv.models.discreteBarChart()
+    .x(function(d) { return d.label })
+    .y(function(d) { return d.value })
+    .staggerLabels(true)
+    //.tooltips(false)
+    .showValues(true)
+	.valueFormat(d3.format(',.0f'))
+	
+	chart.yAxis
+		.tickFormat(d3.format(',.0f'))
+		.axisLabelDistance(0);
+
+	chart.xAxis
+		.axisLabel('');
+
+
+
+  d3.select('#chart svg')
+    .datum(exampleData())
+    .transition().duration(350)
+    .call(chart)
+    ;
+	
+  nv.utils.windowResize(chart.update);
+
+  return chart;
+  
+
+});
+
+
+</script>
+</body>
+</html>
