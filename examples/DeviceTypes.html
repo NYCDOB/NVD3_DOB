@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+
+<!-- Regular Pie -->
+<!-- <div id='chart'><svg style='height:950px;'> </svg> -->
+<!-- </div> -->
+
+<!-- Donut Chart -->
+<div id='chart2'><svg style='height:950px;'> </svg>
+</div>
+<style>
+.nvtooltip {
+   max-width: 300px;
+}
+</style>
+ 
+<script type="text/javascript">
+window.onload = function () {
+ 
+//Regular pie chart example
+nv.addGraph(function() {
+  var chart = nv.models.pieChart()
+      .x(function(d) { return d.label })
+      .y(function(d) { return d.value })
+	  .labelType("percent")
+      .showLabels(true);
+ 
+    d3.select("#chart svg")
+        .datum(exampleData())
+        .transition().duration(350)
+        .call(chart);
+	
+  return chart;
+});
+ 
+//Donut chart example
+nv.addGraph(function() {
+  var chart = nv.models.pieChart()
+      .x(function(d) { return d.label })
+      .y(function(d) { return d.value })
+      .showLabels(true)     //Display pie labels
+      .labelThreshold(.01)  //Configure the minimum slice size for labels to show up
+      .labelType("percent") //Configure what type of data to show in the label. Can be "key", "value" or "percent"
+      .donut(true)          //Turn on Donut mode. Makes pie chart look tasty!
+      .donutRatio(0.35)     //Configure how big you want the donut hole size to be.
+	  .valueFormat(d3.format(',.0f'))
+      ;
+ 
+    d3.select("#chart2 svg")
+        .datum(exampleData())
+        .transition().duration(350)
+        .call(chart);
+ 
+  return chart;
+});
+ 
+//Pie chart example data. Note how there is only a single array of key-value pairs.
+function exampleData() {
+  return  [
+	  { 
+        "label": "Passenger Elevator",
+		"color" : "#F79646",
+        "value" : 73437
+      } ,
+	  { 
+        "label": "Freight Elevator",
+		"color" : "#9BBB59",
+        "value" : 6948
+      } , 
+	  { 
+        "label": "Wheelchair Lift",
+		"color" : "#276A7C",
+        "value" : 5578
+      } ,
+	  { 
+        "label": "Escalator",
+		"color" : "#C0504D",
+        "value" : 3799
+      } ,
+      { 
+        "label": "Sidewalk",
+		"color" : "#5F7530",
+        "value" : 2391
+      } , 
+	  { 
+        "label": "Dumbwaiter",
+		"color" : "#4F81BD",
+        "value" : 1568
+      } , 
+	  { 
+        "label": "Permanent Amusement Ride",
+		"color" : "#FFD700",
+        "value" : 391
+      } ,  
+	  { 
+        "label": "Handicapped Accessible",
+		"color" : "#00FFFF",
+        "value" : 281
+      } , 
+	  { 
+        "label": "Private Elevator",
+		"color" : "#FF00FF",
+        "value" : 279
+      } , 
+	  { 
+        "label": "Manual Lift",
+		"color" : "#4D3B62",
+        "value" : 109
+      } ,
+      { 
+        "label": "Public",
+		"color" : "#FF0000",
+        "value" : 50
+      } , 
+	  { 
+        "label": "Other Various",
+		"color" : "#778899",
+        "value" : 5573
+      } 
+
+    ];
+}
+}
+</script>
+</body>
+</html>
