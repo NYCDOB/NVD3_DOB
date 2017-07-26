@@ -566,7 +566,7 @@
 			//Example of how to customize the tooltip.
 		chart.interactiveLayer
 			.tooltip
-			.headerFormatter(function(d) {return d3.time.format('%m')(new Date(d));})
+			.headerFormatter(function(d) {return d3.time.format('%m/%Y')(new Date(d));})
 			//.headerFormatter(function(d) {return ((d));})
 			.valueFormatter(d3.format(','));
 			
