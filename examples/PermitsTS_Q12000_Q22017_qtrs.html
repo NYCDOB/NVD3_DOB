@@ -436,6 +436,9 @@
 							var vanilli = new Date(d);
 							
                              // calculate the month (0-11) based on the new date
+			if (typeof d === 'string') {
+				d = parseFloat(d);
+				}
                              var mon = vanilli.getMonth();
                              var yr = vanilli.getFullYear();
 
