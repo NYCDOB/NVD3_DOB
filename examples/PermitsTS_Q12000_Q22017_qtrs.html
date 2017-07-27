@@ -471,7 +471,7 @@
 			.tooltip
 			//.headerFormatter(function(d) {return d3.time.format('%m/%Y')(new Date(d));})
 			//.headerFormatter(function(d) {return (d);})
-	    		.headerFormatter(function(d, i) {return nv.models.axis().tickFormat()(d, i);})
+	    		.headerFormatter(function(d) {return nv.models.axis().tickFormat()(d);})
 			.valueFormatter(d3.format(','));
 			
 			d3.select('#chart1')
