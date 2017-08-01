@@ -1,0 +1,61 @@
+{
+ "name": "Total Permits",
+ "children": [
+  {"name": "NB", "size": 175627},
+  {"name": "A1", "size": 140099},
+  {"name": "DM", "size": 38323},
+  {
+   "name": "A2",
+   "children": [
+    {
+     "name": "Construction Equipment",
+     "children": [
+      {"name": "Chute", "size": 73},
+      {"name": "Fence", "size": 44489},
+      {"name": "Other Construction Equipment", "size": 789},
+      {"name": "Scaffold", "size": 1092},
+	  {"name": "Sidewalk Shed", "size": 3040}
+     ]
+    },
+    {
+     "name": "Equipment Work",
+     "children": [
+      {"name": "Boiler", "size": 43804},
+      {"name": "Fire Alarm", "size": 22},
+      {"name": "Fire Suppression", "size": 38609},
+      {"name": "Fuel Burning", "size": 22124},
+      {"name": "Fuel Storage", "size": 14543},
+	  {"name": "Mechanical/HVAC", "size": 218362},
+      {"name": "Other", "size": 644757},
+      {"name": "Sprinkler", "size": 90327},
+      {"name": "Stand Pipe", "size": 14199},
+      {"name": "Plumbing", "size": 345197}
+     ]
+    }
+   ]
+  },
+  {
+   "name": "A3",
+   "children": [
+    {"name": "A3: No SubType", "size": 76182},
+	{
+     "name": "Foundation/Earthwork",
+     "children": [
+      {"name": "Earthwork Only", "size": 1}
+     ]
+    },
+    {
+     "name": "Construction Equipment",
+     "children": [
+      {"name": "Chute", "size": 1013},
+      {"name": "Fence", "size": 31941},
+      {"name": "Other Construction Equipment", "size": 14911},
+      {"name": "Scaffold", "size": 46189},
+      {"name": "Sidewalk Shed", "size": 132047}
+     ]
+    }
+   ]
+  }
+
+ ]
+}
