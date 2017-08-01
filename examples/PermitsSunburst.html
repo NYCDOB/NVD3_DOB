@@ -55,7 +55,7 @@ var uniqueNames = (function(a) {
 
 colors.domain(uniqueNames);
 
-d3.json("examples/PermitsSubTypes_Q12000_Q22017.json", function(error, root) {
+d3.json("PermitsSubTypes_Q12000_Q22017.json", function(error, root) {
   if (error) throw error;
 
   svg.selectAll("path")
