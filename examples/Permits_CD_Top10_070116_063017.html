@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+
+    <style>
+        text {
+            font: 14px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, #chart1, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chart1" class='with-3d-shadow with-transitions'>
+    <svg></svg>
+</div>
+
+<script>
+    historicalBarChart = [
+     {
+    key: "NB",
+    color: "#8dd3c7",
+    values:
+    [      
+     { x : "407", y : 459 },
+      { x : "301", y : 427 },
+      { x : "503", y : 509 },
+      { x : "303", y : 308 },
+      { x : "502", y : 390 },
+	  { x : "312", y : 269 },
+	  { x : "414", y : 355 },
+	  { x : "411", y : 232 },
+	  { x : "401", y : 239 },
+	  { x : "306", y : 168}
+	]
+  },
+ {
+    key: "A1",
+    color: "#fdb462",
+    values:
+    [      
+     { x : "407", y : 416 },
+      { x : "301", y : 375 },
+      { x : "503", y : 119 },
+      { x : "303", y : 328 },
+      { x : "502", y : 166 },
+	  { x : "312", y : 304 },
+	  { x : "414", y : 193 },
+	  { x : "411", y : 237 },
+	  { x : "401", y : 223 },
+	  { x : "306", y : 331}
+    ]
+  },
+    {key: "A2",
+     disabled: true,
+    color: "#C0504D",
+    values:
+    [      
+      { x : "407", y : 2723 },
+      { x : "301", y : 2873 },
+      { x : "503", y : 1259 },
+      { x : "303", y : 2264 },
+      { x : "502", y : 1581 },
+	  { x : "312", y : 1398 },
+	  { x : "414", y : 2500 },
+	  { x : "411", y : 1261 },
+	  { x : "401", y : 1994 },
+	  { x : "306", y : 2652}
+    ]
+  },
+ 
+  {
+    key: "A3",
+	disabled: true,
+    color: "#bc80bd",
+    values:
+    [      
+      { x : "407", y : 450 },
+      { x : "301", y : 985 },
+      { x : "503", y : 111 },
+      { x : "303", y : 569 },
+      { x : "502", y : 163 },
+	  { x : "312", y : 321 },
+	  { x : "414", y : 354 },
+	  { x : "411", y : 139 },
+	  { x : "401", y : 663 },
+	  { x : "306", y : 673}
+    ]
+  },
+   {
+    key: "DM",
+    color: "#80b1d3",
+    values:
+    [      
+      { x : "407", y : 184 },
+      { x : "301", y : 111 },
+      { x : "503", y : 87 },
+      { x : "303", y : 55 },
+      { x : "502", y : 132 },
+	  { x : "312", y : 90 },
+	  { x : "414", y : 97 },
+	  { x : "411", y : 74 },
+	  { x : "401", y : 78 },
+	  { x : "306", y : 33}
+    ]
+  }
+  
+];
+    nv.addGraph(function() {
+        var chart = nv.models.multiBarChart()
+        .showControls(true)
+	.staggerLabels(true)
+        .stacked(true);
+        chart.yAxis
+            .tickFormat(d3.format(',.0f'))
+            .axisLabelDistance(0);
+        chart.xAxis
+            .axisLabel('');
+        chart
+            .reduceXTicks(false)
+          
+        d3.select('#chart1 svg')
+            .datum(historicalBarChart)
+            .call(chart);
+        nv.utils.windowResize(chart.update);
+		
+        return chart;
+    });
+</script>
+</body>
+</html>
