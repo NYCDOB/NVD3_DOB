@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
-    <script src="../build/nv.d3.js"></script>
+    <script src="../build/nv.d3_1.8.1.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel='stylesheet' type='text/css'>
 
     <style>
@@ -430,26 +430,23 @@
             .y(function(d) { return d[1] })
             .controlLabels({stacked: "Stacked"}) 
             .duration(300);
-
 			
         chart.xAxis			
 			.ticks(3)
 			.tickFormat( function ( d ) {
                              // get the milliseconds since Epoch for the date
                              //var milli = (x.getTime() - 10000);
-
                              // calculate new date 10 seconds earlier. Could be one second, 
                              // but I like a little buffer for my neuroses
                              //var vanilli = new Date(milli);
-							 if (typeof d === 'string') {
-								d = parseFloat(d);
-								}
 							var vanilli = new Date(d);
 							
                              // calculate the month (0-11) based on the new date
+			if (typeof d === 'string') {
+				d = parseFloat(d);
+				}
                              var mon = vanilli.getMonth();
                              var yr = vanilli.getFullYear();
-
                              // return appropriate quarter for that month
                              if ( mon <= 2 ) {
                                  return  "Q1-" + yr;
@@ -461,9 +458,7 @@
                                  return "Q4-" + yr;
                              }
                          } )
-
 		chart.xScale(d3.time.scale());
-
 	 chart._options.controlOptions = ['Stacked', 'Expanded'];
 	 
 	 
@@ -477,9 +472,9 @@
 			//Example of how to customize the tooltip.
 		chart.interactiveLayer
 			.tooltip
-			//.headerFormatter(function(d) {return d3.time.format('%m')(new Date(d));})
+			//.headerFormatter(function(d) {return d3.time.format('%m/%Y')(new Date(d));})
 			//.headerFormatter(function(d) {return (d);})
-			.headerFormatter(function(d) {return nv.models.axis().tickFormat()(d);})
+	    		.headerFormatter(function(d) {return nv.models.axis().tickFormat()(d);})
 			.valueFormatter(d3.format(','));
 			
 			d3.select('#chart1')
