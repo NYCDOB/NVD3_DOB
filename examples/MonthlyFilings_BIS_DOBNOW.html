@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html meta-charset="utf-8">
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+
+    <style>
+        text {
+            font: 14px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, #chart1, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chart1">
+    <svg></svg>
+</div>
+
+<script>
+    d3.csv("https://nycdob.github.io/NVD3_DOB/examples/MonthlyFilings_BIS_DOBNOW.csv",function(err,data){
+      
+      //get each key of the data that is not date
+      //these will be our key in the key/value pair
+      //the values x and y will be month and the value
+      var historicalBarChart = Object.keys(data[0]).filter(function(k){return k!="FilingDate"})
+        .map(function(k){
+          return {"key":k,"values":data.map(function(d){
+           return {
+             "x":d.FilingDate,
+             "y":+d[k]
+           }
+          })}
+        })
+        
+    nv.addGraph(function() {
+        var chart = nv.models.multiBarChart()
+		
+        .showControls(true)
+        .stacked(true);
+		
+        chart.yAxis
+            //.tickFormat(d3.format(',.0f'))
+			.tickFormat(d3.format('.2s'))
+            .axisLabelDistance(0);
+        chart.xAxis
+            .staggerLabels(true)
+            .axisLabel('');
+        chart
+            .reduceXTicks(true)
+          
+        d3.select('#chart1 svg')
+            .datum(historicalBarChart)
+            .call(chart);
+        nv.utils.windowResize(chart.update);
+        return chart;
+    });
+    
+	})
+
+
+  
+</script>
+</body>
+</html>
