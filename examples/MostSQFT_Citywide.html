@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+	<script src="../test/stream_layers.js"></script>
+
+    <style>
+        text {
+            font: 14px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, #chart1, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chart1" class='with-3d-shadow with-transitions'>
+    <svg></svg>
+</div>
+
+<script>
+
+
+d3.csv("https://github.com/NYCDOB/DOB_Dashboards/blob/Major_Construction_Tables/Most_Square_Footage_Citywide.csv", function(error, data){
+	console.log(data)
+	
+	//create an empty object that nv is expecting
+	var exampleData = [
+		{
+			key: "totals",
+			values: []
+		}
+	];
+	
+	//populate the empty object with your data
+	data.forEach(function(d){
+		//d.value = +d.value
+		d.value = (d['Square Footage'])
+		exampleData[0].values.push(d)
+	})
+	
+	
+
+  //d3.json('multiBarHorizontalData.json', function(data) {
+    nv.addGraph(function() {
+      var chart = nv.models.multiBarHorizontalChart()
+          <!-- .x(function(d) { return d.Address }) -->
+          <!-- .y(function(d) { return d.value }) -->
+		  .x(function(d) { return (d['General Contractor']) })
+          .y(function(d) { return (d['Square Footage']) })
+          .margin({top: 30, right: 20, bottom: 50, left: 175})
+          .showValues(true)           //Show bar value next to each bar.
+          .duration(350)
+          .showControls(false);       //Allow user to switch between "Grouped" and "Stacked" mode.
+          //.tooltip.enabled(true)             //Show tooltips on hover.
+      chart.yAxis
+          .tickFormat(d3.format(',.2f'));
+
+      d3.select('#chart1 svg')
+          .datum(exampleData)
+		  .attr("id", function(d){ console.log(d); })
+          .call(chart);
+
+      nv.utils.windowResize(chart.update);
+
+      return chart;
+    });
+  //});    
+});
+</script>
+</body>
+</html>
