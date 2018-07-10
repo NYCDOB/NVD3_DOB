@@ -59,6 +59,7 @@
    		var chart = nv.models.discreteBarChart()
        		.x(function (d) { console.log(d); return d.key })
        		.y(function (d) { return d.values })
+		.margin({top: 10, right: 10, bottom: 10, left: 10})
 			.color(['#BF0000']);
 			
        		//.staggerLabels(true)
