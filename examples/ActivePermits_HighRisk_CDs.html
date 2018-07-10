@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="../build/nv.d3.js"></script>
+
+</head>
+<body>
+	<svg id="chart" style="width:800; height:500;"></svg>    
+</body>
+
+<script type="text/javascript">
+
+	d3.csv("https://raw.githubusercontent.com/NYCDOB/D3_ActivePermits_Risk/gh-pages/data/SiteSafetyAutomationOutput.csv", function(d){
+	return {
+		cd : +d["Community Board"],
+		score : +d.Score
+	};
+}, function (data){
+
+	var filteredData = data.filter(function(d){
+		return +d.score > 6;
+	})
+	console.log(filteredData.length);
+	
+	var highrisk = d3.nest()
+		.key(function(d) { return d.cd; })
+		.rollup(function(v) {
+			return v.length;
+		})			
+		.entries(filteredData)
+		.sort(function(a, b){ return d3.descending(a.values, b.values); });
+		
+	console.log(highrisk);
+		// create an empty object that nv is expecting
+    var exampleData = [
+    	{
+    		key: "totals",
+    		values: []
+    	}
+    ];
+
+        // populate the empty object with your data
+    highrisk.forEach(function (d){
+    	d.values = +d.values
+    	exampleData[0].values.push(d)
+    })       
+
+ 	nv.addGraph(function() {
+		
+   		var chart = nv.models.discreteBarChart()
+       		.x(function (d) { console.log(d); return d.key })
+       		.y(function (d) { return d.values })
+			.color(['#BF0000']);
+			
+       		//.staggerLabels(true)
+       		//.tooltips(false)
+       		//.showValues(true)
+		chart.yAxis.tickFormat(d3.format('.0f'));
+ 	  	d3.select('#chart')
+    			.datum(exampleData)
+    			.attr("id", function (d) { console.log(d); })
+    		.transition().duration(500)
+       			.call(chart);
+		 
+   		nv.utils.windowResize(chart.update);
+   		return chart;
+ 	});
+
+ });
+
+</script>
+</html>
