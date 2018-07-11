@@ -75,7 +75,8 @@
        		//.tooltips(false)
        		//.showValues(true)
 		chart.yAxis.tickFormat(d3.format('.0f'));
-		chart.staggerLabels(true);
+		//chart.rotateLabels(-90);
+		//chart.staggerLabels(true);
  	  	d3.select('#chart')
     			.datum(exampleData)
     			.attr("id", function (d) { console.log(d); })
