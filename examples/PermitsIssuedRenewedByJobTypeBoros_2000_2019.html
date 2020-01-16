@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+	<script src="lib/stream_layers.js"></script>
+
+    <style>
+        text {
+            font: 14px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, #chart1, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chart1" class='with-3d-shadow with-transitions'>
+    <svg></svg>
+</div>
+
+<script>
+ var long_short_data = [
+  {
+    key: "NB",
+    color: "#8dd3c7",
+    values:
+    [      
+     { "label" : "Bronx", "value" : 24687 },
+      { "label" : "Brooklyn", "value" : 58235 },
+      { "label" : "Manhattan", "value" : 11750 },
+      { "label" : "Queens", "value" : 60481 },
+      { "label" : "Staten Island", "value" : 40736 }
+    ]
+  },
+ {
+    key: "A1",
+    color: "#fdb462",
+    values:
+    [      
+     { "label" : "Bronx", "value" : 11343 },
+      { "label" : "Brooklyn", "value" : 51110 },
+      { "label" : "Manhattan", "value" : 37717 },
+      { "label" : "Queens", "value" : 52556 },
+      { "label" : "Staten Island", "value" : 10445 }
+    ]
+  },
+ {
+	key: "A2",
+	 disabled: true,
+    color: "#C0504D",
+    values:
+    [      
+     { "label" : "Bronx", "value" : 129096 },
+      { "label" : "Brooklyn", "value" : 377779 },
+      { "label" : "Manhattan", "value" : 945840 },
+      { "label" : "Queens", "value" : 289345 },
+      { "label" : "Staten Island", "value" : 55734 }
+    ]
+  },
+ 
+ {
+    key: "A3",
+	 disabled: true,
+    color: "#bc80bd",
+    values:
+    [      
+     { "label" : "Bronx", "value" : 32543	 },
+      { "label" : "Brooklyn", "value" : 79633 },
+      { "label" : "Manhattan", "value" : 157609 },
+      { "label" : "Queens", "value" : 54868 },
+      { "label" : "Staten Island", "value" : 8933 }
+    ]
+  },
+  {
+    key: "DM",
+    color: "#80b1d3",
+    values:
+    [      
+     { "label" : "Bronx", "value" : 3615 },
+      { "label" : "Brooklyn", "value" : 13502 },
+      { "label" : "Manhattan", "value" : 4060 },
+      { "label" : "Queens", "value" : 16359 },
+      { "label" : "Staten Island", "value" : 6164 }
+    ]
+  }
+];
+    nv.addGraph(function() {
+        var chart = nv.models.multiBarHorizontalChart()
+		.x(function(d) { return d.label })
+		.y(function(d) { return d.value })
+		//.yErr(function(d) { return [-Math.abs(d.value * Math.random() * 0.3), Math.abs(d.value * Math.random() * 0.3)] })
+		.duration(250)
+		.margin({left: 100})
+		.margin({right: 30})
+        .stacked(true);
+        chart.yAxis.tickFormat(d3.format(',.0f'));
+			    
+       
+        d3.select('#chart1 svg')
+            .datum(long_short_data)
+            .call(chart);
+        nv.utils.windowResize(chart.update);
+		
+		chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
+		chart.state.dispatch.on('change', function(state){
+		    nv.log('state', JSON.stringify(state));
+		});	
+			
+        return chart;
+    });
+</script>
+</body>
+</html>
