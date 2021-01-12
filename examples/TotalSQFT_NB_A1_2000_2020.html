@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+
+    <style>
+        text {
+            font: 14px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, #chart1, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chart1">
+    <svg></svg>
+</div>
+
+<script>
+    historicalBarChart = [
+     {
+    key: "NB Total SqFt",
+    color: "#8dd3c7",
+    values:
+    [ 
+	  { x : "2000", y: 37806892  },
+	  { x : "2001", y : 35507029  },
+      { x : "2002", y : 36489024  },
+      { x : "2003", y : 37688127  },
+      { x : "2004", y : 46659573  },
+      { x : "2005", y : 56657776  },
+	  { x : "2006", y : 56891780  },
+      { x : "2007", y : 64571980  },
+      { x : "2008", y : 65392284  },
+      { x : "2009", y : 20721086  },
+      { x : "2010", y : 16898371  },	
+      { x : "2011", y : 18972588  },
+      { x : "2012", y : 23129012  },
+      { x : "2013", y : 34303328  },
+      { x : "2014", y : 38303688  },
+      { x : "2015", y : 92922450  },
+	  { x : "2016", y : 34907256  },
+	  { x : "2017", y : 46277620  },
+	  { x : "2018", y : 45589462  },
+	  { x : "2019", y : 42049054  },
+	  { x : "2020", y : 32927584  }
+    ]
+  },
+ {
+    key: "A1 Total SqFt",
+    color: "#fdb462",
+    values:
+    [      
+     { x : "2000", y : 5246488 },
+	 { x : "2001", y : 7195790 },
+	 { x : "2002", y : 27433451 },
+	 { x : "2003", y : 6550668 },
+	 { x : "2004", y : 4771196 },
+	 { x : "2005", y : 5846609 },
+	 { x : "2006", y : 6245161 },
+	 { x : "2007", y : 5210662 },
+	 { x : "2008", y : 5837800 },
+	 { x : "2009", y : 2718510 },
+	 { x : "2010", y : 2000136 },
+	 { x : "2011", y : 1993239 },
+	 { x : "2012", y : 3662577 },
+	 { x : "2013", y : 2694500 },
+	 { x : "2014", y : 3449270 },
+	 { x : "2015", y : 5840797 },
+	 { x : "2016", y : 4285104 },
+	 { x : "2017", y : 3577691 },
+	 { x : "2018", y : 3861882 },
+	 { x : "2019", y : 4480334 },
+	 { x : "2020", y : 3037046 }
+    ]
+  }
+];
+    nv.addGraph(function() {
+        var chart = nv.models.multiBarChart()
+		
+        .showControls(true)
+        .stacked(true);
+		
+        chart.yAxis
+            //.tickFormat(d3.format(',.0f'))
+			.tickFormat(d3.format('.2s'))
+            .axisLabelDistance(0);
+        chart.xAxis
+            .staggerLabels(true)
+            .axisLabel('');
+        chart
+            .reduceXTicks(true)
+          
+        d3.select('#chart1 svg')
+            .datum(historicalBarChart)
+            .call(chart);
+        nv.utils.windowResize(chart.update);
+        return chart;
+    });
+</script>
+</body>
+</html>
