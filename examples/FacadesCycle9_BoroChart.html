@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../build/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="../build/nv.d3.js"></script>
+	<!-- <script src="../lib/stream_layers.js"></script> -->
+
+    <style>
+        text {
+            font: 14px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, #chart-boro-facades, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chart-boro-facades" class='with-3d-shadow with-transitions'>
+    <svg></svg>
+</div>
+
+<script>
+
+var points = [];
+	d3.csv("https://raw.githubusercontent.com/NYCDOB/data_store/master/facadeLL11_v2.csv",function(data){
+			points = data.filter(function(d) {
+				if( ((+d["Lat"] != 0) && (+d["Lon"] !=0 )) && (([d.Cycle] == "9A") || [d.Cycle] == "9B" || [d.Cycle] == "9C") ) {
+					return d;
+				}
+			}).map(function(d){
+			d.Borough = [d.Borough];
+			d.cycle = [d.Cycle];
+		return d;
+		});
+		
+		var nestBoroSheds = d3.nest()
+			.key(function(d){return d.Borough;})//.sortKeys(d3.ascending)
+			.rollup(function(v) { 
+				return v.length;
+			})
+			.entries(points)
+			.sort(function(a, b){ return d3.descending(a.values, b.values); })
+			console.log(nestBoroSheds);
+			shedBoroChart(nestBoroSheds);
+			
+		function shedBoroChart(data){
+			var shedBoroData = [
+				{
+					key: "totals",
+					values: []
+				}
+			];
+
+			// populate the empty object with your data
+			data.forEach(function (d){
+				d.values = +d.values
+				shedBoroData[0].values.push(d)
+			})     
+			
+			
+			nv.addGraph(function() {				
+				var chart = nv.models.discreteBarChart()
+					.x(function (d) {  
+						return d.key 
+					})
+					.y(function (d) { 
+						return d.values 
+					})
+					.duration(250)
+					.margin({top: 15, right: 10, bottom: 20, left: 50})
+					.color(['#7899b0']);
+				chart.yAxis.tickFormat(d3.format(','));
+
+				chart.xAxis.tickFormat(function(d){
+					if (typeof this != 'undefined') {
+					 var el = d3.select(this);
+					 var p = d3.select(this.parentNode);
+					 p.append("foreignObject")
+						.attr('x', -100)
+						.attr("width", 200)
+						.attr("height", 200)
+						.append("xhtml:p")
+						.attr('style','word-wrap: break-word; text-align:center; font: normal 9px sans-serif;')
+						.html(d);    
+						el.remove();
+						return d;
+					}
+				});		
+				
+				d3.select('#chart-boro-facades svg')
+						.datum(shedBoroData)
+						.transition().duration(250)
+						.call(chart);
+				nv.utils.windowResize(chart.update);
+				return chart;
+			});
+		}
+	});	
+</script>
+</body>
+</html>
